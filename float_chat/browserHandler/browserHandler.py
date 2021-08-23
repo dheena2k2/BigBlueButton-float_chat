@@ -42,7 +42,7 @@ class WebHandler:
         cool_down_time = 2  # seconds
         cool_interval = 1  # seconds between refresh
         hot_interval = 0.1  # seconds between refresh when chat box is active
-        last_time = time.time()
+        last_cool_time = last_time = time.time()
 
         while True:
             new_usernames = [x.text for x in driver.find_elements_by_xpath(self.username_xpath)]
@@ -50,6 +50,7 @@ class WebHandler:
 
             if new_usernames != usernames or new_messages != messages:
                 is_cool = False
+                last_cool_time = time.time()
 
                 start_at = -1
                 for i in range(len(new_usernames)):
@@ -66,13 +67,18 @@ class WebHandler:
                 usernames = new_usernames
                 messages = new_messages
 
-            elapsed_time = time.time() - last_time
             if is_cool:
+                elapsed_time = time.time() - last_time
                 if elapsed_time < cool_interval:
                     time.sleep(cool_interval - elapsed_time)
             else:
+                if time.time() - last_cool_time > cool_down_time:
+                    is_cool = True
+                elapsed_time = time.time() - last_time
                 if elapsed_time < hot_interval:
                     time.sleep(hot_interval - elapsed_time)
+
+            last_time = time.time()
 
     def switch_to_default_tab(self):
         if self.default_tab:
