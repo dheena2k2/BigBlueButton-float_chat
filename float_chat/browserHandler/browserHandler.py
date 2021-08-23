@@ -1,8 +1,9 @@
 import helper
 from . import tag_priority
-from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.common.keys import Keys
 import os
 import xml.etree.ElementTree as Et
+import time
 
 
 class WebHandler:
@@ -29,6 +30,49 @@ class WebHandler:
     def start_float_chat(self):
         driver = self.driver
         self.default_tab = helper.switch_to_chat_tab(driver, self.chat_tab_details)
+        usernames = [x.text for x in driver.find_elements_by_xpath(self.username_xpath)]
+        messages = [x.text for x in driver.find_elements_by_xpath(self.message_xpath)]
+
+        for i in range(len(usernames)):
+            print(usernames[i])
+            print(messages[i])
+            print('='*20)
+
+        is_cool = True
+        cool_down_time = 2  # seconds
+        cool_interval = 1  # seconds between refresh
+        hot_interval = 0.1  # seconds between refresh when chat box is active
+        last_time = time.time()
+
+        while True:
+            new_usernames = [x.text for x in driver.find_elements_by_xpath(self.username_xpath)]
+            new_messages = [x.text for x in driver.find_elements_by_xpath(self.message_xpath)]
+
+            if new_usernames != usernames or new_messages != messages:
+                is_cool = False
+
+                start_at = -1
+                for i in range(len(new_usernames)):
+                    if new_usernames[-(i+1)] == usernames[-1] and new_messages[-(i+1)] == messages[-1]:
+                        start_at = -i
+                        break
+
+                while start_at < 0:
+                    print(new_usernames[start_at])
+                    print(new_messages[start_at])
+                    print('='*20)
+                    start_at += 1
+
+                usernames = new_usernames
+                messages = new_messages
+
+            elapsed_time = time.time() - last_time
+            if is_cool:
+                if elapsed_time < cool_interval:
+                    time.sleep(cool_interval - elapsed_time)
+            else:
+                if elapsed_time < hot_interval:
+                    time.sleep(hot_interval - elapsed_time)
 
     def switch_to_default_tab(self):
         if self.default_tab:
