@@ -1,13 +1,13 @@
 from selenium import webdriver
+from . import select_tab_methods
 import os
 
 
-open_browser_defs = {'chrome': webdriver.Chrome}
-select_tab_defs = {'title': switch_tab_by_title}
+open_browser_methods = {'chrome': webdriver.Chrome}
 
 
 def open_browser(name, cd_path, website=None):
-    driver = open_browser_defs[name](cd_path)
+    driver = open_browser_methods[name](cd_path)
     if website:
         driver.get(website)
 
@@ -15,7 +15,7 @@ def open_browser(name, cd_path, website=None):
 
 
 def switch_to_chat_tab(driver, tab_details):
-    return select_tab_defs[tab_details[0]](driver, tab_details[1])
+    return select_tab_methods[tab_details[0]](driver, tab_details[1])
 
 
 def switch_tab_by_title(driver, title):
