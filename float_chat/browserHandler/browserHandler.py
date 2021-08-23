@@ -22,10 +22,16 @@ class WebHandler:
 
         self.driver = helper.open_browser(browser_name, driver_path)
         self.default_tab = None
+
+        self.chat_tab_details = xp.get_chat_site()
     
     def start_float_chat(self):
         driver = self.driver
-        self.default_tab = helper.switch_tab_by_title(driver, )
+        self.default_tab = helper.switch_to_chat_tab(driver, self.chat_tab_details)
+
+    def switch_to_default_tab(self):
+        if self.default_tab:
+            self.driver.switch_to.window(self.default_tab)
 
 
 class XmlParser:
@@ -52,4 +58,4 @@ class XmlParser:
                         tag_name = info.tag
                         tag_info = info.text
         
-        return tag_name, tag_name
+        return tag_name, tag_info
