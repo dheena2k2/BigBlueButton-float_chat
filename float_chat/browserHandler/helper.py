@@ -48,6 +48,8 @@ class Rate:
         self.last_call = time.time()
 
     def sleep(self):
-        elapsed_time = time.time() - self.last_call
+        time_now = time.time()
+        elapsed_time = time_now - self.last_call
         if elapsed_time < self.call_time_gap:
             time.sleep(self.call_time_gap - elapsed_time)
+        self.last_call = time_now
