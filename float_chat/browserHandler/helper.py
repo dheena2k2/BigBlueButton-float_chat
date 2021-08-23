@@ -1,5 +1,4 @@
 from selenium import webdriver
-from . import select_tab_methods
 import os
 import time
 
@@ -15,10 +14,6 @@ def open_browser(name, cd_path, website=None):
     return driver
 
 
-def switch_to_chat_tab(driver, tab_details):
-    return select_tab_methods[tab_details[0]](driver, tab_details[1])
-
-
 def switch_tab_by_title(driver, title):
     current_window = driver.current_window_handle
     tabs = driver.window_handles
@@ -32,6 +27,13 @@ def switch_tab_by_title(driver, title):
     else:
         driver.switch_to.window(current_window)
         return None
+
+
+select_tab_methods = {'title': switch_tab_by_title}
+
+
+def switch_to_chat_tab(driver, tab_details):
+    return select_tab_methods[tab_details[0]](driver, tab_details[1])
 
 
 def get_parent_dir(child_path, level=0):

@@ -1,4 +1,4 @@
-import helper
+from . import helper
 from . import tag_priority
 # from selenium.webdriver.common.keys import Keys
 import os
