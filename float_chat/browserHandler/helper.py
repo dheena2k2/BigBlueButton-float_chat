@@ -3,6 +3,7 @@ import os
 
 
 open_browser_defs = {'chrome': webdriver.Chrome}
+select_tab_defs = {'title': switch_tab_by_title}
 
 
 def open_browser(name, cd_path, website=None):
@@ -11,6 +12,10 @@ def open_browser(name, cd_path, website=None):
         driver.get(website)
 
     return driver
+
+
+def switch_to_chat_tab(driver, tab_details):
+    return select_tab_defs[tab_details[0]](driver, tab_details[1])
 
 
 def switch_tab_by_title(driver, title):
