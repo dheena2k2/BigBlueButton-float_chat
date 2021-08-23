@@ -1,8 +1,12 @@
 from selenium import webdriver
+import os
 
 
-def open_chrome(cd_path, website=None):
-    driver = webdriver.Chrome(cd_path)
+open_browser_defs = {'chrome': webdriver.Chrome}
+
+
+def open_browser(name, cd_path, website=None):
+    driver = open_browser_defs[name](cd_path)
     if website:
         driver.get(website)
 
@@ -13,12 +17,19 @@ def switch_tab_by_title(driver, title):
     current_window = driver.current_window_handle
     tabs = driver.window_handles
     for tab in tabs:
-            if tab != current_window:
-                    driver.switch_to.window(tab)
-                    if driver.title == title:
-                            break
+        if tab != current_window:
+            driver.switch_to.window(tab)
+            if driver.title == title:
+                break
     if driver.title == title:
-            return current_window
+        return current_window
     else:
-            driver.switch_to.window(current_window)
-            return None
+        driver.switch_to.window(current_window)
+        return None
+
+def get_parent_dir(child_path, level=0):
+    parent_path = child_path
+    for i in range(level):
+        parent_path = os.path.dirname(parent_path)
+    
+    return parent_path
