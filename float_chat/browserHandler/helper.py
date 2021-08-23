@@ -1,6 +1,7 @@
 from selenium import webdriver
 from . import select_tab_methods
 import os
+import time
 
 
 open_browser_methods = {'chrome': webdriver.Chrome}
@@ -39,3 +40,14 @@ def get_parent_dir(child_path, level=0):
         parent_path = os.path.dirname(parent_path)
     
     return parent_path
+
+
+class Rate:
+    def __init__(self, rate):
+        self.call_time_gap = 1 / rate
+        self.last_call = time.time()
+
+    def sleep(self):
+        elapsed_time = time.time() - self.last_call
+        if elapsed_time < self.call_time_gap:
+            time.sleep(self.call_time_gap - elapsed_time)
