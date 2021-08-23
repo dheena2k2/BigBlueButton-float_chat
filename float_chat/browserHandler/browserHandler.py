@@ -2,7 +2,7 @@ import helper
 from . import tag_priority
 from selenium.webdriver.common.keys import Keys
 import os
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as Et
 
 
 class WebHandler:
@@ -37,7 +37,7 @@ class WebHandler:
 
 class XmlParser:
     def __init__(self, xml_path):
-        self.xml_file_tree = ET.parse(xml_path)
+        self.xml_file_tree = Et.parse(xml_path)
         self.root = self.xml_file_tree.getroot()
     
     def get_browser_driver_name(self, name):
