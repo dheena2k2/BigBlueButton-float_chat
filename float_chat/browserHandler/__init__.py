@@ -1,1 +1,1 @@
-site_priority = {'url': 0, 'title': 1}
+tag_priority = {'url': 0, 'title': 1}
