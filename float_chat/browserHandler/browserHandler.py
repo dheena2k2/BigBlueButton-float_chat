@@ -24,6 +24,7 @@ class WebHandler:
         self.default_tab = None
 
         self.chat_tab_details = xp.get_chat_site()
+        self.username_xpath, self.message_xpath = xp.get_chat_xpaths()
     
     def start_float_chat(self):
         driver = self.driver
@@ -59,3 +60,9 @@ class XmlParser:
                         tag_info = info.text
         
         return tag_name, tag_info
+
+    def get_chat_xpaths(self):
+        username_xpath = self.root.find('.//xpaths/xpath[@name="username"]').text
+        message_xpath = self.root.find('.//xpaths/xpath[@name="message"]').text
+
+        return username_xpath, message_xpath
