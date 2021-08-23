@@ -1,4 +1,5 @@
 import helper
+from . import tag_priority
 from selenium.webdriver.common.keys import Keys
 import os
 import xml.etree.ElementTree as ET
@@ -37,3 +38,18 @@ class xmlParser:
         for driver in drivers:
             if driver.attrib['name'] = name:
                 return driver.text
+    
+    def get_chat_site(self):
+        sites = self.root.findall('.//sites/site')
+        tag_name = None
+        tag_info = None
+        priority = None
+        for site in sites:
+            if site.attrib['name'] == 'chat':
+                for info in site:
+                    if priority is None or tag_priority[tag_name] < priority:
+                        priority = tag_priority[tag_name]
+                        tag_name = info.tag
+                        tag_info = info.text
+        
+        return (tag_name, tag_name)
