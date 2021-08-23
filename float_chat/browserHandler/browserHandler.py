@@ -11,7 +11,7 @@ class WebHandler:
         self.browser_name = browser_name
 
         current_dir = os.getcwd()
-        self.application_dir = helper.get_parent_dir(current_dir, level=2)
+        self.application_dir = helper.get_parent_dir(current_dir, level=1)
         self.data_dir = os.path.join(self.application_dir, 'data')
 
         base_data_path = os.path.join(self.data_dir, 'base_data.xml')
@@ -98,8 +98,8 @@ class XmlParser:
         for site in sites:
             if site.attrib['name'] == 'chat':
                 for info in site:
-                    if priority is None or tag_priority[tag_name] < priority:
-                        priority = tag_priority[tag_name]
+                    if priority is None or tag_priority[info.tag] < priority:
+                        priority = tag_priority[info.tag]
                         tag_name = info.tag
                         tag_info = info.text
         
