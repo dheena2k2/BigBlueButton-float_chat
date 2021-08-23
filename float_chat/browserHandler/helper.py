@@ -32,6 +32,7 @@ def switch_tab_by_title(driver, title):
         driver.switch_to.window(current_window)
         return None
 
+
 def get_parent_dir(child_path, level=0):
     parent_path = child_path
     for i in range(level):

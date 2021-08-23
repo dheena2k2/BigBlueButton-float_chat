@@ -5,7 +5,7 @@ import os
 import xml.etree.ElementTree as ET
 
 
-class webHandler:
+class WebHandler:
     def __init__(self, browser_name):
         self.browser_name = browser_name
 
@@ -14,7 +14,7 @@ class webHandler:
         self.data_dir = os.path.join(self.application_dir, 'data')
 
         base_data_path = os.path.join(self.data_dir, 'base_data.xml')
-        xp = xmlParser(base_data_path)
+        xp = XmlParser(base_data_path)
         
         driver_dir = os.path.join(self.data_dir, 'drivers')
         driver_name = xp.get_browser_driver_name(browser_name)
@@ -28,7 +28,7 @@ class webHandler:
         self.default_tab = helper.switch_tab_by_title(driver, )
 
 
-class xmlParser:
+class XmlParser:
     def __init__(self, xml_path):
         self.xml_file_tree = ET.parse(xml_path)
         self.root = self.xml_file_tree.getroot()
@@ -36,7 +36,7 @@ class xmlParser:
     def get_browser_driver_name(self, name):
         drivers = self.root.findall('.//browserDrivers/driver')
         for driver in drivers:
-            if driver.attrib['name'] = name:
+            if driver.attrib['name'] == name:
                 return driver.text
     
     def get_chat_site(self):
@@ -52,4 +52,4 @@ class xmlParser:
                         tag_name = info.tag
                         tag_info = info.text
         
-        return (tag_name, tag_name)
+        return tag_name, tag_name
