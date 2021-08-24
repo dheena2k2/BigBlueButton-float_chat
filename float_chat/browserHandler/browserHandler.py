@@ -4,6 +4,7 @@ from . import tag_priority
 import os
 import xml.etree.ElementTree as Et
 import time
+import _thread as thread
 
 
 class WebHandler:
@@ -26,44 +27,35 @@ class WebHandler:
 
         self.chat_tab_details = xp.get_chat_site()
         self.username_xpath, self.message_xpath = xp.get_chat_xpaths()
+        self.is_listening = False
+
+    def listen_chat(self, callback):
+        self.is_listening = True
+        thread.start_new_thread(self.start_float_chat, callback)
+
+    def stop_listening(self):
+        self.is_listening = False
     
-    def start_float_chat(self):
+    def start_float_chat(self, callback):
         driver = self.driver
         self.default_tab = helper.switch_to_chat_tab(driver, self.chat_tab_details)
         usernames = [x.text for x in driver.find_elements_by_xpath(self.username_xpath)]
         messages = [x.text for x in driver.find_elements_by_xpath(self.message_xpath)]
 
-        for i in range(len(usernames)):
-            print(usernames[i])
-            print(messages[i])
-            print('='*20)
-
         is_cool = True
         cool_down_time = 2  # seconds
-        cool_rate = helper.Rate(1)  # cool_interval = 1  # seconds between refresh
-        hot_rate = helper.Rate(10)  # hot_interval = 0.1  # seconds between refresh when chat box is active
+        cool_rate = helper.Rate(1)  # refresh per second
+        hot_rate = helper.Rate(10)  # refresh per second when chat box is active
         last_cool_time = time.time()
 
-        while True:
+        while self.is_listening:
             new_usernames = [x.text for x in driver.find_elements_by_xpath(self.username_xpath)]
             new_messages = [x.text for x in driver.find_elements_by_xpath(self.message_xpath)]
 
             if new_usernames != usernames or new_messages != messages:
                 is_cool = False
                 last_cool_time = time.time()
-
-                start_at = -1
-                for i in range(len(new_usernames)):
-                    if new_usernames[-(i+1)] == usernames[-1] and new_messages[-(i+1)] == messages[-1]:
-                        start_at = -i
-                        break
-
-                while start_at < 0:
-                    print(new_usernames[start_at])
-                    print(new_messages[start_at])
-                    print('='*20)
-                    start_at += 1
-
+                callback(usernames=new_usernames, messages=new_messages)
                 usernames = new_usernames
                 messages = new_messages
 
