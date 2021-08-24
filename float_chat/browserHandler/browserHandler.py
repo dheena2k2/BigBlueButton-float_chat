@@ -66,6 +66,9 @@ class WebHandler:
                     is_cool = True
                 hot_rate.sleep()
 
+    def set_default_tab(self):
+        self.default_tab = self.driver.current_window_handle
+
     def switch_to_default_tab(self):
         if self.default_tab:
             self.driver.switch_to.window(self.default_tab)
