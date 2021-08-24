@@ -108,7 +108,7 @@ class WebHandler:
 class XmlParser:
     def __init__(self, xml_path):
         """
-        Obtains base_data.xml file and set the root
+        Obtains base_data.xml file and set the root for parsing
         :param xml_path: path of base_data.xml file
         """
         self.xml_file_tree = Et.parse(xml_path)
