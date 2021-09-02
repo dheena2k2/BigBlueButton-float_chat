@@ -2,15 +2,27 @@ import tkinter as tk
 
 
 class Chat(tk.Frame):
+    """
+    This frame is the body to hold a single chat message which consist of
+    username and the respective message
+    """
     def __init__(self, parent=None, **kwargs):
+        """
+        Initializing necessary values
+        :param parent: parent frame
+        :param kwargs: extra parameters for tkinter Frame
+        """
         super().__init__(parent, **kwargs)
         self.parent = parent
         self.username = tk.StringVar()  # label holding username
         self.content = tk.StringVar()  # label holding content
-        self.content_label = None  # to handle resize
         self.create_widgets()
 
     def create_widgets(self):
+        """
+        Creates and packs widget
+        :return: None
+        """
         user_font = ('calibri', 11, 'bold')  # font specifications
         content_font = ('calibri', 11, 'normal')
         tip_font = ('calibri', 10, 'normal')
@@ -24,9 +36,13 @@ class Chat(tk.Frame):
         username_label.pack(side=tk.TOP, expand=tk.YES, fill=tk.X, anchor=tk.N)  # arranging widgets
         content_label.pack(side=tk.TOP, expand=tk.YES, fill=tk.X, padx=(20, 0))
 
-        self.content_label = content_label
-
     def set_contents(self, username, content):
+        """
+        Assign values to username and content label
+        :param username: username of the message sender
+        :param content: content of the message
+        :return: None
+        """
         rev_username = username[:28] + '...' if len(username) > 30 else username
         self.username.set(rev_username)
         self.content.set(content + '\n')  # '\n' to separate messages
