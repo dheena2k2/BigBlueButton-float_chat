@@ -1,5 +1,4 @@
 import tkinter as tk
-import helper
 
 
 class Chat(tk.Frame):
@@ -16,17 +15,15 @@ class Chat(tk.Frame):
         username_label = tk.Label(self, textvariable=self.username, anchor=tk.W)  # create label widgets
         content_label = tk.Label(self, textvariable=self.content, anchor=tk.W)
 
-        username_label.config(font=user_font, width=30, justify=tk.LEFT)
+        username_label.config(font=user_font, width=30, justify=tk.LEFT)  # configuring widgets
         content_label.config(font=content_font, width=30, justify=tk.LEFT)
-        content_label.config(wraplength=content_label.winfo_reqwidth())
-        print(content_label.winfo_reqwidth())
+        content_label.config(wraplength=content_label.winfo_reqwidth())  # wrap content according to widget width
 
         username_label.grid(row=0, column=0, sticky=tk.EW)  # arranging widgets
         content_label.grid(row=1, column=0, sticky=tk.EW)
 
     def set_contents(self, username, content):
         self.username.set(username)
-        # content = helper.fit_content(content, 23)  # fitting content to chat box by adding '\n'
         self.content.set(content)
 
 
