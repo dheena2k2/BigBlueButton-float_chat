@@ -78,7 +78,8 @@ class WebHandler:
             if new_usernames != usernames or new_messages != messages:  # if change in chat
                 is_cool = False  # set chat is active
                 last_cool_time = time.time()
-                callback(usernames=new_usernames, messages=new_messages)  # indicate to callback
+                chat_data = (new_usernames[i], new_messages[i] for i in range(len(new_usernames)))
+                callback(chat_data=chat_data)  # indicate to callback
                 usernames = new_usernames
                 messages = new_messages
 
