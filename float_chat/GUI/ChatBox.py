@@ -28,7 +28,7 @@ class Chat(tk.Frame):
         username_label = tk.Label(self, textvariable=username, anchor=tk.W)  # create label widgets
         content_label = tk.Label(self, textvariable=content)
 
-        username_label.config(font=user_font, width=30, justify=tk.LEFT)  # configuring widgets
+        username_label.config(font=user_font, width=30, justify=tk.LEFT, bg='grey')  # configuring widgets
         content_label.config(font=content_font, width=30, justify=tk.LEFT)
         content_label.config(wraplength=content_label.winfo_reqwidth())  # wrap content according to widget width
 
@@ -100,8 +100,9 @@ class ChatBox(tk.Frame):
         # arranging widgets
         self.canvas.create_window(0, 0, anchor=tk.NW, window=self.chat_array)
 
-        self.canvas.grid(row=0, column=0)
+        self.canvas.grid(row=0, column=0, sticky=tk.NS)
         self.scrollbar.grid(row=0, column=1, sticky=tk.NS)
+        self.rowconfigure(0, weight=1)
 
     def update_callback(self, chat_data):
         for i in range(len(chat_data)):
@@ -122,5 +123,6 @@ class ChatBox(tk.Frame):
 if __name__ == '__main__':
     root = tk.Tk()
     widget = ChatBox(root)
-    widget.pack()
+    widget.pack(expand=tk.YES, fill=tk.Y)
+    root.resizable(False, True)
     root.mainloop()
