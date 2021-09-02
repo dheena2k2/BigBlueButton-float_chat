@@ -79,7 +79,7 @@ class WebHandler:
                 is_cool = False  # set chat is active
                 last_cool_time = time.time()
                 chat_data = [(new_usernames[i], new_messages[i]) for i in range(len(new_usernames))]
-                chat_data = tuple(chat_data[::-1])  # arranging latest first order
+                chat_data = chat_data[::-1]  # arranging latest first order
                 callback(chat_data=chat_data)  # indicate to callback
                 usernames = new_usernames
                 messages = new_messages
