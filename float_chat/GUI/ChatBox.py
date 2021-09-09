@@ -99,6 +99,7 @@ class ChatBox(tk.Frame):
         # configuring canvas and scrollbar
         self.scrollbar.config(command=self.canvas.yview)
         self.canvas.config(yscrollcommand=self.scrollbar.set)
+        self.canvas.yview(tk.MOVETO, 1.0)  # move to end
 
         # arranging widgets
         self.canvas.create_window(0, 0, anchor=tk.NW, window=self.chat_array)
@@ -121,12 +122,18 @@ class ChatBox(tk.Frame):
             content_var.set('')
 
         self.fit_canvas()
+        self.pin_down()
 
     def fit_canvas(self):
         self.chat_array.update()
         chat_array_width = self.chat_array.winfo_reqwidth()
         chat_array_height = self.chat_array.winfo_reqheight()
         self.canvas.config(scrollregion=(0, 0, chat_array_width, chat_array_height))
+
+    def pin_down(self):
+        bottom_fraction = self.scrollbar.get()[1]  # get the position of scroll bar bottom side
+        if bottom_fraction >= 0.8:
+            self.canvas.yview(tk.MOVETO, 1.0)  # move to bottom
 
 
 if __name__ == '__main__':
