@@ -26,9 +26,9 @@ class Chat(tk.Frame):
         user_font = ('calibri', 10, 'bold')  # font specifications
         content_font = ('calibri', 10, 'normal')
         username_label = tk.Label(self, textvariable=username, anchor=tk.W)  # create label widgets
-        content_label = tk.Label(self, textvariable=content)
+        content_label = tk.Label(self, textvariable=content, anchor=tk.W)
 
-        username_label.config(font=user_font, width=30, justify=tk.LEFT, bg='grey')  # configuring widgets
+        username_label.config(font=user_font, width=30, justify=tk.LEFT)  # configuring widgets
         content_label.config(font=content_font, width=30, justify=tk.LEFT)
         content_label.config(wraplength=content_label.winfo_reqwidth())  # wrap content according to widget width
 
@@ -74,7 +74,7 @@ class ChatBox(tk.Frame):
     """
     This frame combine all the other frames to create whole chat box
     """
-    def __init__(self, parent=None, **kwargs):
+    def __init__(self, parent=None, total_chats=None, **kwargs):
         """
         Initializing necessary values
         :param parent: parent frame
@@ -84,7 +84,10 @@ class ChatBox(tk.Frame):
         super().__init__(parent, **kwargs)
         self.canvas = tk.Canvas(self)  # to contain ChatArray
         self.chat_array = ChatArray(self.canvas)
-        self.chat_data = self.chat_array.create_widgets()
+        if total_chats:
+            self.chat_data = self.chat_array.create_widgets(total_chats)
+        else:
+            self.chat_data = self.chat_array.create_widgets()
 
         self.chat_array.update()
         chat_array_width = self.chat_array.winfo_reqwidth()
@@ -105,12 +108,18 @@ class ChatBox(tk.Frame):
         self.rowconfigure(0, weight=1)
 
     def update_callback(self, chat_data):
-        for i in range(len(chat_data)):
+        for i in range(len(chat_data)):  # update from bottom
             username, content = chat_data[i]
             rev_username = username[:28] + '...' if len(username) > 30 else username  # add continue dots
             username_var, content_var = self.chat_data[i]
             username_var.set(rev_username)
-            content_var.set(content)
+            content_var.set(content + '\n')
+
+        for i in range(len(chat_data), len(self.chat_data)):  # remove entries in remaining chat cells
+            username_var, content_var = self.chat_data[i]
+            username_var.set('')
+            content_var.set('')
+
         self.fit_canvas()
 
     def fit_canvas(self):
