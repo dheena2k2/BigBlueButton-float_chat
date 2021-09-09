@@ -1,6 +1,7 @@
 from . import helper
 from . import tag_priority
 # from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import StaleElementReferenceException
 import os
 import xml.etree.ElementTree as Et
 import time
@@ -45,7 +46,7 @@ class WebHandler:
         :return: None
         """
         self.is_listening = True  # keeps while loop running for listening to chats
-        thread.start_new_thread(self.start_float_chat, callback)  # create new thread
+        thread.start_new_thread(self.start_float_chat, tuple([callback]))  # create new thread
 
     def stop_listening(self):
         """
@@ -62,8 +63,8 @@ class WebHandler:
         """
         driver = self.driver
         self.default_tab = helper.switch_to_chat_tab(driver, self.chat_tab_details)  # switch to chat tab
-        usernames = [x.text for x in driver.find_elements_by_xpath(self.username_xpath)]  # get chat usernames
-        messages = [x.text for x in driver.find_elements_by_xpath(self.message_xpath)]  # get chat contents
+        usernames = list()  # get chat usernames
+        messages = list()  # get chat contents
 
         is_cool = True  # if chat is not active
         cool_down_time = 2  # seconds to wait for cool down
@@ -72,13 +73,17 @@ class WebHandler:
         last_cool_time = time.time()  # to keep track of cool down time
 
         while self.is_listening:
-            new_usernames = [x.text for x in driver.find_elements_by_xpath(self.username_xpath)]  # get new data
-            new_messages = [x.text for x in driver.find_elements_by_xpath(self.message_xpath)]
+            try:
+                new_usernames = [x.text for x in driver.find_elements_by_xpath(self.username_xpath)]  # get new data
+                new_messages = [x.text for x in driver.find_elements_by_xpath(self.message_xpath)]
+            except StaleElementReferenceException as e:
+                new_usernames = usernames
+                new_messages = messages
 
             if new_usernames != usernames or new_messages != messages:  # if change in chat
                 is_cool = False  # set chat is active
                 last_cool_time = time.time()
-                chat_data = [(new_usernames[i], new_messages[i]) for i in range(len(new_usernames))]
+                chat_data = [(new_usernames[i], new_messages[i]) for i in range(min(len(new_usernames), len(new_messages)))]
                 chat_data = chat_data[::-1]  # arranging latest first order
                 callback(chat_data=chat_data)  # indicate to callback
                 usernames = new_usernames
