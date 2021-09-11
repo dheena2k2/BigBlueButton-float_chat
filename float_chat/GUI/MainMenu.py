@@ -1,5 +1,5 @@
 import tkinter as tk
-import ChatBox
+from . import ChatBox
 
 
 class MainMenu(tk.Frame):
