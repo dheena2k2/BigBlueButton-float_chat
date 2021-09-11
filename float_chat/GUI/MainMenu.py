@@ -1,13 +1,16 @@
 import tkinter as tk
+from tkinter.messagebox import askyesno
 from . import ChatBox
 
 
 class MainMenu(tk.Frame):
     def __init__(self, parent=None, **kwargs):
         super().__init__(parent, **kwargs)
+        self.parent = parent
 
         buttons = dict()
         buttons['float_chat'] = tk.Button(self, text='Start float chat', command=self.toggle_chat)
+        buttons['quit'] = tk.Button(self, text='Quit', command=self.if_quit)
         self.buttons = buttons
 
         i = 0
@@ -41,3 +44,8 @@ class MainMenu(tk.Frame):
         self.float_chat_toplevel.destroy()
         self.buttons['float_chat'].config(text='Start float chat')
         self.float_chat_on = False
+
+    def if_quit(self):
+        answer = askyesno(title='Confirm exit', message='Are you sure you want to exit?')
+        if answer:
+            self.parent.destroy()
