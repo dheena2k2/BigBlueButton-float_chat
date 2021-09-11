@@ -49,3 +49,17 @@ class MainMenu(tk.Frame):
         answer = askyesno(title='Confirm exit', message='Are you sure you want to exit?')
         if answer:
             self.parent.destroy()
+
+    def align_window(self):
+        self.parent.update()
+
+        screen_width = self.parent.winfo_screenwidth()
+        screen_height = self.parent.winfo_screenheight()
+        window_width = self.parent.winfo_width()
+        window_height = self.parent.winfo_height()
+
+        x = screen_width - window_width/2 - 120
+        y = screen_height - window_height/2 - 60
+
+        self.parent.geometry('+%d+%d' % (x, y))
+
