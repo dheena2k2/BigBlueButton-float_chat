@@ -51,7 +51,7 @@ class ChatArray(tk.Frame):
         self.chats = None  # list which will contain Chat cells
         self.is_created = False  # avoid multiple calls to create_widget method
 
-    def create_widgets(self, total_chats=10):
+    def create_widgets(self, total_chats=15):
         """
         Creates and arrange Chat cells
         :return: tuple of chat cell data variables
