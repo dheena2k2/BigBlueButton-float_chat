@@ -11,11 +11,14 @@ class MainMenu(tk.Frame):
         buttons['switch_to_default'] = tk.Button(self, text='Switch to default tab')
         self.buttons = buttons
 
+        for x in buttons:
+            buttons[x].pack(side=tk.LEFT)
+
         self.web_handler = None
         self.float_chat_on = False
         self.float_chat_toplevel = None
 
-    def configure_browser_handler(self, wh):
+    def connect_browser_handler(self, wh):
         self.web_handler = wh
         self.buttons['switch_to_default'].config(command=wh.switch_to_default_tab)
 
