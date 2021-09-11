@@ -31,11 +31,12 @@ class WebHandler:
         driver_dir = os.path.join(self.data_dir, 'drivers')
         driver_name = xp.get_browser_driver_name(browser_name)
         driver_path = os.path.join(driver_dir, driver_name)  # path of the browser driver
+        default_tab_url = xp.get_site('default')[1]
 
-        self.driver = helper.open_browser(browser_name, driver_path)  # open browser
+        self.driver = helper.open_browser(browser_name, driver_path, default_tab_url)  # open browser
         self.default_tab = self.driver.current_window_handle  # saving for easy switch
 
-        self.chat_tab_details = xp.get_chat_site()  # get chat site details to switch
+        self.chat_tab_details = xp.get_site('chat')  # get chat site details to switch
         self.username_xpath, self.message_xpath = xp.get_chat_xpaths()  # get chat username and message xpath
         self.is_listening = False  # if listening to chat
 
@@ -132,7 +133,7 @@ class XmlParser:
             if driver.attrib['name'] == name:
                 return driver.text  # returns name if match found
     
-    def get_chat_site(self):
+    def get_site(self, name):
         """
         Fetches details of the chat site, details which have high priority
         :return: type of the detail and detail itself
@@ -142,7 +143,7 @@ class XmlParser:
         tag_info = None
         priority = None
         for site in sites:
-            if site.attrib['name'] == 'chat':  # if site's name attribute is 'chat'
+            if site.attrib['name'] == name:  # if site's name attribute is 'chat'
                 for info in site:
                     if priority is None or tag_priority[info.tag] < priority:  # get highest priority info
                         priority = tag_priority[info.tag]
