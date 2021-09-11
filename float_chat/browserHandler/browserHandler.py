@@ -33,7 +33,7 @@ class WebHandler:
         driver_path = os.path.join(driver_dir, driver_name)  # path of the browser driver
 
         self.driver = helper.open_browser(browser_name, driver_path)  # open browser
-        self.default_tab = None  # saving for easy switch
+        self.default_tab = self.driver.current_window_handle  # saving for easy switch
 
         self.chat_tab_details = xp.get_chat_site()  # get chat site details to switch
         self.username_xpath, self.message_xpath = xp.get_chat_xpaths()  # get chat username and message xpath
