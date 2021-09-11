@@ -8,11 +8,12 @@ class MainMenu(tk.Frame):
 
         buttons = dict()
         buttons['float_chat'] = tk.Button(self, text='Start float chat', command=self.toggle_chat)
-        buttons['switch_to_default'] = tk.Button(self, text='Switch to default tab')
         self.buttons = buttons
 
+        i = 0
         for x in buttons:
-            buttons[x].pack(side=tk.LEFT)
+            buttons[x].grid(row=0, column=i)
+            i += 1
 
         self.web_handler = None
         self.float_chat_on = False
@@ -20,11 +21,11 @@ class MainMenu(tk.Frame):
 
     def connect_browser_handler(self, wh):
         self.web_handler = wh
-        self.buttons['switch_to_default'].config(command=wh.switch_to_default_tab)
 
     def toggle_chat(self):
         if not self.float_chat_on:
             self.float_chat_toplevel = tk.Toplevel(self)
+            self.float_chat_toplevel.protocol('WM_DELETE_WINDOW', self.on_float_chat_close)
             self.float_chat_toplevel.attributes('-topmost', True)
             chat_box = ChatBox.ChatBox(self.float_chat_toplevel)
             chat_box.pack(expand=tk.YES, fill=tk.Y)
@@ -33,6 +34,10 @@ class MainMenu(tk.Frame):
             self.buttons['float_chat'].config(text='Stop float chat')
             self.float_chat_on = True
         else:
-            self.float_chat_toplevel.destroy()
-            self.buttons['float_chat'].config(text='Start float chat')
-            self.float_chat_on = False
+            self.on_float_chat_close()
+
+    def on_float_chat_close(self):
+        self.web_handler.stop_listening()
+        self.float_chat_toplevel.destroy()
+        self.buttons['float_chat'].config(text='Start float chat')
+        self.float_chat_on = False
