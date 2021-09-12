@@ -63,7 +63,7 @@ class WebHandler:
         :return: None
         """
         driver = self.driver
-        self.default_tab = helper.switch_to_chat_tab(driver, self.chat_tab_details)  # switch to chat tab
+        self.is_listening = helper.switch_to_chat_tab(driver, self.chat_tab_details)  # switch to chat tab
         usernames = list()  # get chat usernames
         messages = list()  # get chat contents
 
