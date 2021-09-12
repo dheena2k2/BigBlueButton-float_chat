@@ -1,6 +1,5 @@
 from . import helper
 from . import tag_priority
-# from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import StaleElementReferenceException
 import os
 import xml.etree.ElementTree as Et
