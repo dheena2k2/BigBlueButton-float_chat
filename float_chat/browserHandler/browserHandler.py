@@ -13,7 +13,7 @@ class WebHandler:
     This class handles the collection of data from the chat site
     updates in the chat box is notified to other methods through callback
     """
-    def __init__(self, browser_name):
+    def __init__(self, browser_name='chrome'):
         """
         This method collects all the required data from
         float_chat/data/base_data.xml file and opens a browser to control
