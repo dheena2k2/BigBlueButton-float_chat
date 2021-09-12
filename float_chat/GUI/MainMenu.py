@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter.messagebox import askyesno
+from . import helper
 from . import ChatBox
 
 
@@ -47,20 +47,28 @@ class MainMenu(tk.Frame):
         self.float_chat_on = False
 
     def if_quit(self):
-        answer = askyesno(title='Confirm exit', message='Are you sure you want to exit?')
+        answer = helper.quit_popup()
         if answer:
             self.parent.destroy()
 
     def align_window(self):
+        """
+                Align the main menu to the bottom right
+                :return: None
+                """
         self.parent.update()
 
+        # get screen info
         screen_width = self.parent.winfo_screenwidth()
         screen_height = self.parent.winfo_screenheight()
+
+        # get window info
         window_width = self.parent.winfo_width()
         window_height = self.parent.winfo_height()
 
+        # determine position of the window
         x = screen_width - window_width/2 - 120
         y = screen_height - window_height/2 - 60
 
+        # move the window to determined position
         self.parent.geometry('+%d+%d' % (x, y))
-
