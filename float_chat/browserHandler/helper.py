@@ -21,8 +21,9 @@ def switch_tab_by_title(driver, title):
         if tab != current_window:
             driver.switch_to.window(tab)
             if driver.title == title:
-                return
+                return True
     driver.switch_to.window(current_window)
+    return False
 
 
 select_tab_methods = {'title': switch_tab_by_title}
