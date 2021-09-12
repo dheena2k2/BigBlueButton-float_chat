@@ -39,6 +39,9 @@ class Chat(tk.Frame):
 
 
 class ChatArray(tk.Frame):
+    """
+    Frame containing array of chat cells or Chat Frame
+    """
     def __init__(self, parent=None, **kwargs):
         """
         Initializing necessary values
@@ -110,6 +113,12 @@ class ChatBox(tk.Frame):
         self.rowconfigure(0, weight=1)
 
     def update_callback(self, chat_data):
+        """
+        This method will be called in case of chat in chat data
+        :param chat_data: list of tuples containing updated details of
+            username and respective content
+        :return: None
+        """
         for i in range(len(chat_data)):  # update from bottom
             username, content = chat_data[i]
             rev_username = username[:28] + '...' if len(username) > 30 else username  # add continue dots
@@ -117,7 +126,7 @@ class ChatBox(tk.Frame):
             username_var.set(rev_username)
             content_var.set(content + '\n')
 
-        for i in range(len(chat_data), len(self.chat_data)):  # remove entries in remaining chat cells
+        for i in range(len(chat_data), len(self.chat_data)):  # clear remaining cells
             username_var, content_var = self.chat_data[i]
             username_var.set('')
             content_var.set('')
@@ -126,27 +135,44 @@ class ChatBox(tk.Frame):
         self.pin_down()
 
     def fit_canvas(self):
+        """
+        Fits scrollbar and canvas according to the size of the chat array
+        :return: None
+        """
         self.chat_array.update()
         chat_array_width = self.chat_array.winfo_reqwidth()
         chat_array_height = self.chat_array.winfo_reqheight()
         self.canvas.config(scrollregion=(0, 0, chat_array_width, chat_array_height))
 
     def pin_down(self):
+        """
+        Keeps the scroll bar pinned down to view the new chats
+        :return:
+        """
         bottom_fraction = self.scrollbar.get()[1]  # get the position of scroll bar bottom side
-        if bottom_fraction >= 0.8:
+        if bottom_fraction >= 0.8:  # if the scroll bar did not move more than 20%
             self.canvas.yview(tk.MOVETO, 1.0)  # move to bottom
 
     def align_window(self):
+        """
+        Align the chat box to the right
+        :return: None
+        """
         self.parent.update()
 
+        # get screen info
         screen_width = self.parent.winfo_screenwidth()
         screen_height = self.parent.winfo_screenheight()
+
+        # get window info
         window_width = self.parent.winfo_width()
         window_height = self.parent.winfo_height()
 
+        # determine position of the window
         x = screen_width - window_width/2 - 180
         y = screen_height/2 - window_height/2
 
+        # move the window to determined position
         self.parent.geometry('+%d+%d' % (x, y))
 
 
