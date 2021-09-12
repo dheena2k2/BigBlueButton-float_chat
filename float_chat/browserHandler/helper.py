@@ -18,10 +18,9 @@ def switch_tab_by_title(driver, title):
     current_window = driver.current_window_handle
     tabs = driver.window_handles
     for tab in tabs:
-        if tab != current_window:
-            driver.switch_to.window(tab)
-            if driver.title == title:
-                return True
+        driver.switch_to.window(tab)
+        if driver.title == title:
+            return True
     driver.switch_to.window(current_window)
     return False
 
