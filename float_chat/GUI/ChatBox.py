@@ -82,6 +82,7 @@ class ChatBox(tk.Frame):
         :param kwargs: extra parameters for tkinter Frame
         """
         super().__init__(parent, **kwargs)
+        self.parent = parent
         self.canvas = tk.Canvas(self)  # to contain ChatArray
         self.chat_array = ChatArray(self.canvas)
         if total_chats:
@@ -134,6 +135,19 @@ class ChatBox(tk.Frame):
         bottom_fraction = self.scrollbar.get()[1]  # get the position of scroll bar bottom side
         if bottom_fraction >= 0.8:
             self.canvas.yview(tk.MOVETO, 1.0)  # move to bottom
+
+    def align_window(self):
+        self.parent.update()
+
+        screen_width = self.parent.winfo_screenwidth()
+        screen_height = self.parent.winfo_screenheight()
+        window_width = self.parent.winfo_width()
+        window_height = self.parent.winfo_height()
+
+        x = screen_width - window_width/2 - 180
+        y = screen_height/2 - window_height/2
+
+        self.parent.geometry('+%d+%d' % (x, y))
 
 
 if __name__ == '__main__':

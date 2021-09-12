@@ -32,6 +32,7 @@ class MainMenu(tk.Frame):
             self.float_chat_toplevel.attributes('-topmost', True)
             chat_box = ChatBox.ChatBox(self.float_chat_toplevel)
             chat_box.pack(expand=tk.YES, fill=tk.Y)
+            chat_box.align_window()
             self.float_chat_toplevel.resizable(False, True)
             self.web_handler.listen_chat(chat_box.update_callback)
             self.buttons['float_chat'].config(text='Stop float chat')
