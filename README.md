@@ -15,7 +15,7 @@ Float chat options can be toggled using main menu which opens when the float_cha
 ```commandline
 $ pip install pipenv
 ```
-5) Activate pipenv shell and install necessary packages
+5) Switch to the main directory (i.e. directory of BigBlueButton-float_chat). Activate pipenv shell and install necessary packages
 ```commandline
 $ pipenv shell
 $ pipenv install
