@@ -11,7 +11,7 @@ Float chat options can be toggled using main menu which opens when the float_cha
 * The layout of the browser must not be changed as it my change the xpath of the elements
 
 ## Getting started
-1) Download the respective chrome driver from [here](https://chromedriver.chromium.org/downloads) and make sure to convert it into executable using 'chmod' command if you are using linux. Chrome browser version can be checked by typing 'chrome://version/' in the address bar of the chrome browser
+1) Check your Chrome browser version can typing 'chrome://version/' in the address bar of the chrome browserDownload the respective chrome driver from [here](https://chromedriver.chromium.org/downloads) and make sure to convert it into executable using 'chmod' command if you are using linux. Chrome browser version can be checked by typing 'chrome://version/' in the address bar of the chrome browser
 2) Place the executable of the chrome driver in 'data/drivers/' directory
 3) Create 'data/base_data.xml' file using 'data/base_data_template.xml'
 4) Install pipenv if not already installed
