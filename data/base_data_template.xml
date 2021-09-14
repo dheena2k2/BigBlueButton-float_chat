@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+This is the template of the 'base_data.xml' file which must be present in data directory
+-->
+<data>  <!-- Root tag is <data> -->
+
+  <browserDrivers>  <!-- This tag consists of browser drivers' file name -->
+    <driver name="chrome">chromedriver</driver>  <!-- Browser drivers must be stored in 'data/drivers/' -->
+  </browserDrivers>
+
+  <sites>  <!-- Contains information of all sites used -->
+    <site name="default">  <!-- Default site is optional -->
+      <url>https://sample.com</url>
+    </site>
+    <site name="chat">  <!-- This is mandatory field, title must be changed accordingly -->
+      <title>BigBlueButton - Join Online Class</title>  <!-- Until now chat site is found by its title -->
+    </site>  <!-- Therefore, only title of the chat site is considered -->
+  </sites>
+
+  <xpaths>  <!-- Contains necessary xpaths -->
+    <xpath name="username">  <!-- Can be left as it is unless the xpath is changed -->
+      //*[@id="chatPanel"]/div/div/div[1]/div/div/span/div/div/div/div[2]/div[1]/div/span[1]
+    </xpath>
+    <xpath name="message">  <!-- Can be left as it is unless the xpath is changed -->
+      //*[@id="chatPanel"]/div/div/div[1]/div/div/span/div/div/div/div[2]/div[2]/p
+    </xpath>
+  </xpaths>
+
+</data>
