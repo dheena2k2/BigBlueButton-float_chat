@@ -14,6 +14,7 @@ class Application:
 
         # create and configure root window
         root = tk.Tk()
+        root.title('Float chat menu')
         root.attributes('-topmost', True)
         root.protocol('WM_DELETE_WINDOW', self.at_close)
 

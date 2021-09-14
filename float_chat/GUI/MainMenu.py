@@ -47,6 +47,7 @@ class MainMenu(tk.Frame):
         """
         if not self.float_chat_on:
             self.float_chat_toplevel = tk.Toplevel(self)  # toplevel for float chat
+            self.float_chat_toplevel.title('Float chat')
             self.float_chat_toplevel.protocol('WM_DELETE_WINDOW', self.on_float_chat_close)
             self.float_chat_toplevel.attributes('-topmost', True)  # setting float chat top most
 
