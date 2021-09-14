@@ -22,7 +22,7 @@ $ pipenv install
 ```
 
 ## Running the main script
-Switch to float_chat directory and run the float_chat.py script
+Switch to float_chat directory and run the float_chat.py script (make sure pipenv shell is active)
 ```commandline
 $ cd float_chat/
 $ python float_chat.py
