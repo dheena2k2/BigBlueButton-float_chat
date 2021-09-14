@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchWindowException
 import os
 import time
 
@@ -15,7 +16,10 @@ def open_browser(name, cd_path, website=None):
 
 
 def switch_tab_by_title(driver, title):
-    current_window = driver.current_window_handle
+    try:
+        current_window = driver.current_window_handle
+    except NoSuchWindowException as e:
+        current_window = driver.window_handles[0]
     tabs = driver.window_handles
     for tab in tabs:
         driver.switch_to.window(tab)

@@ -1,6 +1,7 @@
 from . import helper
 from . import tag_priority
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import NoSuchWindowException
 import os
 import xml.etree.ElementTree as Et
 import time
@@ -79,6 +80,9 @@ class WebHandler:
             except StaleElementReferenceException as e:
                 new_usernames = usernames
                 new_messages = messages
+            except NoSuchWindowException as e:
+                self.driver.switch_to.window(self.driver.window_handles[0])
+                return
 
             if new_usernames != usernames or new_messages != messages:  # if change in chat
                 is_cool = False  # set chat is active
