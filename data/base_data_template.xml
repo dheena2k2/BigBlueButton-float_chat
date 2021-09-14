@@ -5,7 +5,7 @@ This is the template of the 'base_data.xml' file which must be present in data d
 <data>  <!-- Root tag is <data> -->
 
   <browserDrivers>  <!-- This tag consists of browser drivers' file name -->
-    <driver name="chrome">chromedriver</driver>  <!-- Browser drivers must be stored in 'data/drivers/' -->
+    <driver name="chrome">driver_name.extension</driver>  <!-- Browser drivers must be stored in 'data/drivers/' -->
   </browserDrivers>
 
   <sites>  <!-- Contains information of all sites used -->
