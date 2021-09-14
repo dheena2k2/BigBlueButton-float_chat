@@ -20,8 +20,8 @@ $ pip install pipenv
 ```
 5) Switch to the main directory (i.e. directory of BigBlueButton-float_chat). Activate pipenv shell and install necessary packages
 ```commandline
-$ pipenv shell
 $ pipenv install
+$ pipenv shell
 ```
 
 ## Running the main script
