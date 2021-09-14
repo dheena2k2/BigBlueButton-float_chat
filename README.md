@@ -5,7 +5,10 @@ This is achieved by opening the Chat site using Selenuim browser automation and 
 
 Float chat options can be toggled using main menu which opens when the float_chat.py script is executed.
 
-<b>Note:</b> Current version only support Chrome browser.
+<b>Note:</b>
+* Current version only support Chrome browser
+* Chat winodw must be made visible in the webpage in order to capture the data
+* The layout of the browser must not be changed as it my change the xpath of the elements
 
 ## Getting started
 1) Download the respective chrome driver from [here](https://chromedriver.chromium.org/downloads) and make sure to convert it into executable using 'chmod' command if you are using linux. Chrome browser version can be checked by typing 'chrome://version/' in the address bar of the chrome browser
