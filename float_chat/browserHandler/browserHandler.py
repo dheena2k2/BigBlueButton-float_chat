@@ -77,17 +77,18 @@ class WebHandler:
             try:
                 new_usernames = [x.text for x in driver.find_elements_by_xpath(self.username_xpath)]  # get new data
                 new_messages = [x.text for x in driver.find_elements_by_xpath(self.message_xpath)]
-            except StaleElementReferenceException as e:
+            except StaleElementReferenceException:
                 new_usernames = usernames
                 new_messages = messages
-            except NoSuchWindowException as e:
+            except NoSuchWindowException:
                 self.driver.switch_to.window(self.driver.window_handles[0])
                 return
 
             if new_usernames != usernames or new_messages != messages:  # if change in chat
                 is_cool = False  # set chat is active
                 last_cool_time = time.time()
-                chat_data = [(new_usernames[i], new_messages[i]) for i in range(min(len(new_usernames), len(new_messages)))]
+                chat_data = [(new_usernames[i], new_messages[i])
+                             for i in range(min(len(new_usernames), len(new_messages)))]
                 chat_data = chat_data[::-1]  # arranging latest first order
                 callback(chat_data=chat_data)  # indicate to callback
                 usernames = new_usernames
