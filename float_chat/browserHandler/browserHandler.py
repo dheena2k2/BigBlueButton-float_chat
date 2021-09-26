@@ -2,6 +2,7 @@ from . import helper
 from . import tag_priority
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import NoSuchWindowException
+from selenium.common.exceptions import NoSuchElementException
 import os
 import xml.etree.ElementTree as Et
 import time
@@ -39,15 +40,20 @@ class WebHandler:
         self.chat_tab_details = xp.get_site('chat')  # get chat site details to switch
         self.username_xpath, self.message_xpath = xp.get_chat_xpaths()  # get chat username and message xpath
         self.is_listening = False  # if listening to chat
+        self.more_messages_button = None  # holds element of more messages button
+        self.is_up_to_date = True  # indicate if the message is up to date
 
-    def listen_chat(self, callback):
+    def listen_chat(self, callback, more_messages_callback, up_to_date_callback):
         """
         Initiates listening the chat by calling self.start_float_chat
+        :param up_to_date_callback: when messages are up to time
+        :param more_messages_callback: when more messages button appears
         :param callback: method to call in case of change in chat
         :return: None
         """
         self.is_listening = True  # keeps while loop running for listening to chats
-        thread.start_new_thread(self.start_float_chat, tuple([callback]))  # create new thread
+        # create new thread
+        thread.start_new_thread(self.start_float_chat, tuple([callback, more_messages_callback, up_to_time_callback]))
 
     def stop_listening(self):
         """
@@ -56,9 +62,11 @@ class WebHandler:
         """
         self.is_listening = False
     
-    def start_float_chat(self, callback):
+    def start_float_chat(self, callback, more_messages_callback, up_to_date_callback):
         """
         Listens to the chat repeatedly and calls callback method in case of changes in chat
+        :param up_to_date_callback: when messages are up to time
+        :param more_messages_callback: when more messages appears
         :param callback: method to call in case of change in chat
         :return: None
         """
@@ -80,6 +88,19 @@ class WebHandler:
             except StaleElementReferenceException:
                 new_usernames = usernames
                 new_messages = messages
+            except NoSuchWindowException:  # select available tab if current window handle is closed
+                self.driver.switch_to.window(self.driver.window_handles[0])
+                return
+
+            try:
+                self.more_messages_button = driver.get_element_by_xpath('//*[@id="chatPanel"]/div/button')
+                self.is_up_to_date = False
+                more_messages_callback(self.click_more_messages_button)
+            except NoSuchElementException:
+                self.more_messages_button = None
+                if not self.is_up_to_date:
+                    up_to_date_callback()
+                    self.is_up_to_date = True
             except NoSuchWindowException:
                 self.driver.switch_to.window(self.driver.window_handles[0])
                 return
@@ -115,6 +136,17 @@ class WebHandler:
         """
         if self.default_tab:
             self.driver.switch_to.window(self.default_tab)
+
+    def click_more_messages_button(self):
+        """
+        Clicks the more messages button
+        :return: None
+        """
+        try:
+            if self.more_messages_button:
+                self.more_messages_button.click()
+        except StaleElementReferenceException:
+            pass
 
 
 class XmlParser:
