@@ -11,22 +11,27 @@ Float chat options can be toggled using main menu which opens when the float_cha
 * The layout of the browser must not be changed as it my change the xpath of the elements
 
 ## Getting started
-1) Check your Chrome browser version by typing 'chrome://version/' in the address bar and download the respective chrome driver from [here](https://chromedriver.chromium.org/downloads) and make sure to convert it into executable using 'chmod' command if you are using linux.
-2) Place the executable of the chrome driver in 'data/drivers/' directory
-3) Create 'data/base_data.xml' file using 'data/base_data_template.xml'
-4) Install pipenv if not already installed
+1) Cloning the repository
 ```commandline
-$ pip install pipenv
+git clone https://github.com/dheena2k2/BigBlueButton-float_chat.git
+cd BigBlueButton-float_chat
 ```
-5) Switch to the main directory (i.e. directory of BigBlueButton-float_chat). Install necessary packages and activate pipenv shell
+2) Check your Chrome browser version by typing 'chrome://version/' in the address bar and download the respective chrome driver from [here](https://chromedriver.chromium.org/downloads) and make sure to convert it into executable using 'chmod' command if you are using linux.
+3) Place the executable of the chrome driver in 'data/drivers/' directory
+4) Create 'data/base_data.xml' file using 'data/base_data_template.xml'
+5) Install pipenv if not already installed
 ```commandline
-$ pipenv install
-$ pipenv shell
+pip install pipenv
+```
+6) Switch to the main directory (i.e. directory of BigBlueButton-float_chat). Install necessary packages and activate pipenv shell
+```commandline
+pipenv install
+pipenv shell
 ```
 
 ## Running the main script
 Switch to float_chat directory and run the float_chat.py script (make sure pipenv shell is active)
 ```commandline
-$ cd float_chat/
-$ python float_chat.py
+cd float_chat/
+python float_chat.py
 ```
